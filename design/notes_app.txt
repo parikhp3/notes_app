@@ -1,0 +1,21 @@
+CREATE DATABASE notes_app;
+
+CREATE TABLE user(
+    `user_id` INT NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(255) NOT NULL,
+    `last_name` VARCHAR(255) NOT NULL,
+    `user_name` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`user_id`)
+);
+
+CREATE TABLE note(
+    `note_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NOT NULL,
+    `deadline` VARCHAR(255) NOT NULL,
+    `notifications` VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`note_id`),
+    FOREIGN KEY(`user_id`) REFERENCES user(`user_id`)
+);
