@@ -67,3 +67,11 @@ button{
     color: #fff;
     cursor:pointer;
 }
+
+.err {
+    display: none;
+}
+
+.note-text {
+    color: white;
+}

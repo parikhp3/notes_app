@@ -5,3 +5,5 @@
 
 # Relation
 ![Relation](/design/Relation.png)
+
+npm install

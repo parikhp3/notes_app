@@ -44,8 +44,17 @@ const notes = [
     }
 ]
 
-const getAllNotes = () => {
-    return notes;
+const getAllNotes = async (userId) => {
+    try {
+        if (userId === 'undefined')
+            return [];
+        const sql = `SELECT * FROM note WHERE user_id = ${userId}`;
+        console.log(sql);
+        return await con.query(sql);
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 const createNote = async (note) => {
@@ -56,6 +65,9 @@ const createNote = async (note) => {
     await con.query(sql);
 
     const newNote = await con.query(`SELECT * FROM note ORDER BY note_id DESC LIMIT 1`);
+
+    console.log('new');
+    console.log(newNote);
 
     return newNote;
 }

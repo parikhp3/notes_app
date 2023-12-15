@@ -11,11 +11,24 @@ router.get('/getAllUsers', (req, res) => {
     }
 })
 
+.post('/login', async (req, res) => {
+    try {
+        const user = await User.login(req.body);
+        res.send({ ...user, password: undefined });
+    } catch (err) {
+        res.status(403).send({ error: err.message });
+    }
+
+})
+
 .post('/createUser', async (req, res) => {
     try {
+
+        console.log('userss');
+        console.log(req.body);
+
         const user = await User.createUser(req.body);
-        console.log(user);
-        res.send(user);
+        res.send({ ...user, password: undefined });
     } catch (err) {
         res.status(401).send({ message: err.message });
     }

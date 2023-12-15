@@ -49,7 +49,7 @@ const createUser = async (user) => {
 
     const newUser = await con.query(`SELECT * FROM user ORDER BY user_id DESC LIMIT 1`);
 
-    return newUser;
+    return newUser?.[0];
 }
 
 const getUser = async (user) => {
@@ -59,6 +59,22 @@ const getUser = async (user) => {
 
     return (await con.query(sql))[0];
 }
+
+const getUserByName = async (userName) => {
+    const sql = `
+        SELECT * FROM user WHERE user_name = "${userName}";
+    `
+
+    return (await con.query(sql))[0];
+}
+
+const login = async (user) => {
+    let userResult = await getUserByName(user.userName)
+    if(!userResult) throw Error("Username not found!")
+    if(userResult.password != user.password) throw Error("Password Wrong!")
+  
+    return userResult
+  }
 
 const editUser = async (user) => {
     const existingUser = await getUser(user);
@@ -92,4 +108,4 @@ const deleteUser = async (user) => {
     await con.query(sql);
 }
 
-module.exports = { getAllUsers, createUser, getUser, editUser, deleteUser };
+module.exports = { getAllUsers, createUser, getUser, editUser, deleteUser, login };

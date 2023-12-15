@@ -10,7 +10,7 @@ function User(firstName, lastName, userName, password) {
     this.password = password;
 }
 
-function register(e) {
+async function register(e) {
     e.preventDefault();
 
     const firstName = document.getElementById('firstName').value;
@@ -19,5 +19,31 @@ function register(e) {
     const password = document.getElementById('password').value;
     
     const userData = new User(firstName, lastName, userName, password);
-    console.log(userData);
+
+    try {
+        const res = await fetch("http://localhost:3000/user/createUser", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        });
+
+        const result = await res.json();
+        if (!result.error) {
+            console.log(result);
+            console.log('dasda');
+            localStorage.setItem('user', JSON.stringify(result));
+            window.location.href = "note.html"
+        } else {
+            console.log("dads");
+            const err = document.querySelector('.err')
+            err.innerText = result.message;
+            err.style.display = 'block';
+        }
+        
+    } catch (err) {
+        console.log('errrrrr');
+        console.log(err);
+    }
 }
